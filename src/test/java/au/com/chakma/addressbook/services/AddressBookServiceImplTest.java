@@ -116,7 +116,7 @@ public class AddressBookServiceImplTest {
     EasyMock.expect(cache.getAddressBook("address-book-2")).andReturn(addressBookEntity2);
     EasyMock.expect(addressBookHelper.convert(addressBookEntity1)).andReturn(addressBook1);
     EasyMock.expect(addressBookHelper.convert(addressBookEntity2)).andReturn(addressBook2);
-    EasyMock.expect(addressBookHelper.getUniqueContacts(EasyMock.anyObject(List.class))).andReturn(contacts);
+    EasyMock.expect(addressBookHelper.getUniqueContacts(EasyMock.anyObject(AddressBook.class), EasyMock.anyObject(AddressBook.class))).andReturn(contacts);
     EasyMock.replay(cache, addressBookHelper, addressBookDal);
     Assert.assertEquals(contacts, addressBookService.uniqueContacts("address-book-1", "address-book-2"));
     EasyMock.verify(cache, addressBookHelper, addressBookDal);

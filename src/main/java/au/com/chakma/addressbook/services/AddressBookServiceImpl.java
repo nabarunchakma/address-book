@@ -10,7 +10,6 @@ import au.com.chakma.addressbook.dals.model.AddressBookEntity;
 import au.com.chakma.addressbook.exceptions.AddressBookException;
 import au.com.chakma.addressbook.helpers.AddressBookHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,12 +49,9 @@ public class AddressBookServiceImpl implements AddressBookService {
 
   @Override
   public List<Contact> uniqueContacts(final String addressBookName, final String otherAddressBookName) {
-    List<AddressBook> addressBooks = new ArrayList<>();
     AddressBook addressBook = loadAddressBook(addressBookName);
-    addressBooks.add(addressBook);
-    addressBook = loadAddressBook(otherAddressBookName);
-    addressBooks.add(addressBook);
+    AddressBook otherAddressBook = loadAddressBook(otherAddressBookName);
 
-    return addressBookHelper.getUniqueContacts(addressBooks);
+    return addressBookHelper.getUniqueContacts(addressBook, otherAddressBook);
   }
 }
