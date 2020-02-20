@@ -32,16 +32,12 @@ public class InMemoryCache implements Cache {
   }
 
   @Override
-  public AddressBookEntity getAddressBook(String addressBookName) {
+  public AddressBookEntity getAddressBook(String addressBookName) throws AddressBookException {
     if (!addressBooks.containsKey(addressBookName)) {
       AddressBookEntity addressBookEntity = null;
-      try {
-        addressBookEntity = addressBookDal.load(addressBookName);
-        if (addressBookEntity != null) {
-          addressBooks.put(addressBookName, addressBookEntity);
-        }
-      } catch (AddressBookException e) {
-        LOGGER.debug("Problem with the Address Book", e);
+      addressBookEntity = addressBookDal.load(addressBookName);
+      if (addressBookEntity != null) {
+        addressBooks.put(addressBookName, addressBookEntity);
       }
     }
     return addressBooks.get(addressBookName);

@@ -25,4 +25,15 @@ public class AddressBook {
   public void setContacts(List<Contact> contacts) {
     this.contacts = contacts;
   }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(String.format("Address Book: %s\n", name))
+      .append("------------------------------------------\n");
+    this.getContacts().forEach(contact -> sb.append(String.format("%s\n", contact.toString())));
+    sb.append("\n");
+
+    return sb.toString();
+  }
 }

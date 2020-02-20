@@ -21,15 +21,17 @@ public class AddressBookServiceImpl implements AddressBookService {
   private AddressBookDal addressBookDal = new AddressBookDalImpl();
 
   @Override
-  public AddressBook loadAddressBook(final String addressBookName) {
+  public AddressBook loadAddressBook(final String addressBookName) throws AddressBookException {
     AddressBookEntity addressBookEntity = cache.getAddressBook(addressBookName);
     return addressBookHelper.convert(addressBookEntity);
   }
 
   @Override
   public AddressBook createAddressBook(final String addressBookName) throws AddressBookException {
-    AddressBookEntity addressBookEntity = cache.getAddressBook(addressBookName);
-    if (addressBookEntity == null) {
+    AddressBookEntity addressBookEntity = null;
+    try {
+      addressBookEntity = cache.getAddressBook(addressBookName);
+    } catch (AddressBookException e) {
       addressBookEntity = new AddressBookEntity();
       addressBookEntity.setName(addressBookName);
       addressBookDal.save(addressBookEntity);
@@ -43,12 +45,14 @@ public class AddressBookServiceImpl implements AddressBookService {
     if (addressBookEntity != null && contact != null) {
       addressBookEntity.getContacts().add(addressBookHelper.convert(contact));
       addressBookDal.save(addressBookEntity);
+      cache.clear(addressBookName);
+      addressBookEntity = cache.getAddressBook(addressBookName);
     }
     return addressBookHelper.convert(addressBookEntity);
   }
 
   @Override
-  public List<Contact> uniqueContacts(final String addressBookName, final String otherAddressBookName) {
+  public List<Contact> uniqueContacts(final String addressBookName, final String otherAddressBookName) throws AddressBookException {
     AddressBook addressBook = loadAddressBook(addressBookName);
     AddressBook otherAddressBook = loadAddressBook(otherAddressBookName);
 

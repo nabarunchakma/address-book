@@ -37,7 +37,7 @@ public class AddressBookServiceImplTest {
 
 
   @Test
-  public void loadAddressBook() {
+  public void loadAddressBook() throws AddressBookException {
     AddressBook addressBook = new AddressBook();
     AddressBookEntity addressBookEntity = new AddressBookEntity();
     EasyMock.expect(cache.getAddressBook("address-book")).andReturn(addressBookEntity);
@@ -100,13 +100,16 @@ public class AddressBookServiceImplTest {
     EasyMock.expect(addressBookHelper.convert(addressBookEntity)).andReturn(addressBook);
     addressBookDal.save(addressBookEntity);
     EasyMock.expectLastCall();
+    cache.clear("address-book");
+    EasyMock.expectLastCall();
+    EasyMock.expect(cache.getAddressBook("address-book")).andReturn(addressBookEntity);
     EasyMock.replay(cache, addressBookDal, addressBookHelper);
     Assert.assertEquals(addressBookService.addContact("address-book", contact), addressBook);
     EasyMock.verify(cache, addressBookDal, addressBookHelper);
   }
 
   @Test
-  public void uniqueContacts() {
+  public void uniqueContacts() throws AddressBookException {
     List<Contact> contacts = new ArrayList<>();
     AddressBookEntity addressBookEntity1 = new AddressBookEntity();
     AddressBookEntity addressBookEntity2 = new AddressBookEntity();

@@ -10,8 +10,8 @@ import java.util.List;
  * Created by nabarunchakma on 2020-02-18.
  */
 public interface AddressBookService {
-  AddressBook loadAddressBook(String addressBookName);
+  AddressBook loadAddressBook(String addressBookName) throws AddressBookException;
   AddressBook createAddressBook(String addressBookName) throws AddressBookException;
   AddressBook addContact(String addressBookName, Contact contact) throws AddressBookException;
-  List<Contact> uniqueContacts(String addressBookName, String otherAddressBook);
+  List<Contact> uniqueContacts(String addressBookName, String otherAddressBook) throws AddressBookException;
 }

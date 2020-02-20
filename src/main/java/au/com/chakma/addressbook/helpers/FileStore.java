@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -24,7 +25,7 @@ public class FileStore implements Store {
       writer.write(content);
       writer.close();
     } catch (IOException e) {
-      LOGGER.error("Error saving the address book {}", name);
+//      LOGGER.error("Error saving the address book {}", name);
       throw new AddressBookException(e);
     }
   }
@@ -41,14 +42,14 @@ public class FileStore implements Store {
       br.close();
     }
     catch (IOException e) {
-      LOGGER.error("Error reading the address book {}", name);
+//      LOGGER.error("Error reading the address book {}", name);
       throw new AddressBookException(e);
     }
     return contentBuilder.toString();
   }
 
   BufferedWriter getBufferedWriterInstance(final String fileName) throws IOException {
-    return new BufferedWriter(new FileWriter(fileName));
+    return new BufferedWriter(new FileWriter(new File(fileName)));
   }
 
   BufferedReader getBufferedReaderInstance(final String fileName) throws FileNotFoundException {

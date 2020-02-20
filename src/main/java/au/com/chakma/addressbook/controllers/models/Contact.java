@@ -31,4 +31,9 @@ public class Contact {
   public void setTelephone(String telephone) {
     this.telephone = telephone;
   }
+
+  @Override
+  public String toString() {
+    return String.format("[name=%s & telephone=%s]", name, telephone);
+  }
 }

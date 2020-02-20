@@ -1,20 +1,44 @@
-plugins {
-    id 'java'
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.github.jengelman.gradle.plugins:shadow:5.2.0"
+    }
 }
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'java'
 
 group 'au.com.chakma'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
-repositories {
-    mavenCentral()
+jar {
+    manifest {
+        attributes 'Main-Class': 'au.com.chakma.addressbook.controllers.AddressBookController'
+    }
+}
+
+shadowJar {
+    baseName = 'address-book'
+    classifier = ''
+    archiveVersion = ''
 }
 
 dependencies {
     compile('org.slf4j:slf4j-api:2.0.0-alpha1')
     compile('org.slf4j:slf4j-simple:2.0.0-alpha1')
     compile('com.google.code.gson:gson:2.8.6')
+    compile('info.picocli:picocli:4.2.0')
     testCompile('org.junit.platform:junit-platform-commons:1.6.0')
     testCompile('org.junit.platform:junit-platform-engine:1.6.0')
     testCompile('org.junit.platform:junit-platform-runner:1.6.0')
